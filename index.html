@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>东东-CSS动画工具</title>
+  <!-- Load local jQuery. This can be overridden with a ?jquery=___ param. -->
+  <script src="../libs/jquery/jquery-1.7.1.js"></script>
+  <script src="../libs/modernizr/modernizr-2.0.6.min.js"></script>
+  <!-- Load local QUnit. -->
+  <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap.min.css" media="screen">
+  <link rel="stylesheet" href="../libs/qunit/qunit.css" media="screen">
+  
+  <script src="../libs/qunit/qunit.js"></script>
+  <!-- Load local lib and tests. -->
+  <link rel="stylesheet" href="../src/css/stitches.css" media="screen">
+  
+  <script data-main="../src/js/stitches.js" src="../src/require.js"></script>
+  <script src="../libs/bootstrap/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="index.css" media="screen">
+</head>
+<body>
+  <div id="qunit hide"></div>
+  <h1>东东<p style="font-size:14px";>雪碧图生成&动画帧生成工具</p></h1>
+  <h3>1.CSS雪碧图生成</h3>
+  <p style="color:red;">下载失败时，点击右键  “另存为...”  下载</p>
+  <div id="qunit-fixture">
+    <div class="stitches" id="stitches"></div>
+  </div>
+  <h3>2.CSS动画帧生成</h3>
+  <p style="color:red;">直接点击播放即可拨上以上合成图片，合成雪碧图时，图片请按 00.jpg 01.jpg 02.jpg ... 方式命名</p>
+  <div class="animation">
+    <div class="stitches-toolbar btn-toolbar">      
+      <div class="btn-group"> 
+        <a href="javascript:void(0)" class="btn btn-small btn-link"><strong>Frames</strong></a>   
+        <button class="btn btn-small btn-info" data-action="settings-frames">                
+          <i class="icon-cog icon-white"></i> 
+          <span class="hidden-phone">设置</span>            
+        </button>     
+        <button id="j-move" class="btn btn-small btn-info disabled"data-action="play">                
+          <i class="icon-play icon-white"></i> 
+          <span>播放</span>        
+        </button>            
+      </div>
+    </div>
+    <div class="stitches-progress collapse">        <div class="progress progress-success">            <div class="bar" style="width: 100%;"></div>        </div>    </div>
+    <div class="stitches-drop-box">   
+      <div class="stitches-wrap">       
+        <div class="stitches-canvas" style="min-width: 400px; min-height: 500px;" id="animation-con"></div>
+      </div>
+      <div class="stitches-palettes">     
+        <div class="stitches-palette stitches-settings fade in">                
+          <div class="stitches-palette-header">                    
+            <button type="button" class="close" data-action="close" title="Close">×</button>                    <h4>导出</h4>                
+          </div>                
+          <div class="stitches-palette-body">      
+            <section>             
+            <ul class="nav nav-tabs">    
+              <li class="active"><a href="#animation-setting" data-toggle="tab">设置</a></li>    
+              <li><a href="#animation-css" data-toggle="tab">CSS</a></li>    
+              <li><a href="#animation-css-compatibility" data-toggle="tab">CSS-自适应</a></li>    
+              <li><a href="#animation-html" data-toggle="tab">HTML</a></li>    
+            </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="animation-setting">
+                      <div class="control-group">                                    
+                        <label class="control-label">时间</label>                                    
+                        <div class="controls">                                        
+                          <div class="input-append">                                            
+                            <input name="height" type="number" min="0" required="" placeholder="animation run time" id="animation_time" value=1000><span class="add-on">ms</span>                                  
+                          </div>                                    
+                        </div>                                
+                      </div>  
+
+                      <div class="control-group">                                    
+                        <label class="control-label">次数Count</label>                                    
+                        <div class="controls">                                        
+                          <div class="input-append">                                            
+                            <input name="height" type="text"  required="" placeholder="animation count" id="animation_count" value='infinite'>                                  
+                          </div>                                    
+                        </div>                                
+                      </div> 
+
+                      <div class="control-group" id="animation_direction">                                    
+                        <label class="control-label">单向播放，双向播放(播放次数要>2)Animation Direction </label>                                    
+                        <div class="controls">                                        
+                          <label class="radio inline">                                            
+                          <input name="animation_direction" type="radio" value="normal" checked="checked"> normal                                       
+                           </label>                                        
+                           <label class="radio inline">                                            
+                            <input name="animation_direction" type="radio" value="alternate"> alternate                                        
+                          </label>                                    
+                        </div>                                
+                      </div>
+
+                      <div class="control-group">                                    
+                        <label class="control-label">延迟Delay</label>                                    
+                        <div class="controls">                                        
+                          <div class="input-append">                                            
+                            <input name="height" type="number" min="0" required="" placeholder="animation run time" id="animation_delay" value=0><span class="add-on">ms</span>                                        
+                          </div>                                    
+                        </div>                                
+                      </div> 
+
+                      <div class="control-group" id="animation_mode">                                    
+                        <label class="control-label">结束后停留状态Animation Fill Mode </label>                                    
+                        <div class="controls">                                        
+                          <label class="radio inline">                                            
+                          <input name="animation_mode" type="radio" value="none" checked="checked"> none                                       
+                           </label>                                        
+                           <label class="radio inline">                                            
+                            <input name="animation_mode" type="radio" value="forwards"> forwards                                        
+                          </label>  
+                          <label class="radio inline">                                            
+                          <input name="animation_mode" type="radio" value="backwards"> backwards                                       
+                           </label>                                        
+                           <label class="radio inline">                                            
+                            <input name="animation_mode" type="radio" value="both"> both                                        
+                          </label>                                    
+                        </div>                                
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="animation-html">
+                    <textarea></textarea>
+                  </div>
+                  <div class="tab-pane" id="animation-css">
+                    <textarea></textarea>
+                  </div>
+                  <div class="tab-pane" id="animation-css-compatibility">
+                    <textarea></textarea>
+                  </div>
+                </div>
+
+              </section> 
+          </div>                           
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>问题反馈 mollyywang</p>
+</body>
+</html>
